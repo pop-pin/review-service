@@ -1,0 +1,15 @@
+name: "Workflow : Integration"
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:  # workflow_dispatch 호출
+
+jobs:
+  integration:
+    uses: pop-pin/actions/.github/workflows/spring-integration.yaml@main
+    with:
+      MYSQL_ROOT_PASSWORD: '1234'
+      MYSQL_DATABASE: 'poppin'
+      JAVA_VERSION: '17'

@@ -19,13 +19,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/")
-    public void createReview(CreateReviewRequestDto requestDto) {
+    @PostMapping("")
+    public void createReview(@RequestBody CreateReviewRequestDto requestDto) {
         reviewService.createReview(requestDto.getUserId(), requestDto.getLocationId(), requestDto.getRating(), requestDto.getTitle(), requestDto.getText());
     }
 
-    @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> getReview(@PathVariable Long reviewId) {
+    @GetMapping("")
+    public ResponseEntity<ReviewResponseDto> getReview(@RequestParam("review_id") Long reviewId) {
         Review review = reviewService.getReview(reviewId);
         ReviewResponseDto result =  ReviewResponseDto.builder()
                 .id(review.getId())
@@ -42,8 +42,8 @@ public class ReviewController {
                 .body(result);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Page<ReviewResponseDto>> getReviewsByUserId(@PathVariable Long userId, @RequestParam int page, @RequestParam int size) {
+    @GetMapping("/user")
+    public ResponseEntity<Page<ReviewResponseDto>> getReviewsByUserId(@RequestParam("user_id") Long userId, @RequestParam("page") int page, @RequestParam("size") int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Page<Review> reviews = reviewService.getReviewsByUserId(userId, pageable);
         Page<ReviewResponseDto> result = reviews.map(review -> ReviewResponseDto.builder()
@@ -61,8 +61,8 @@ public class ReviewController {
                 .body(result);
     }
 
-    @GetMapping("/location/{locationId}")
-    public ResponseEntity<Page<ReviewResponseDto>> getReviewsByLocationId(@PathVariable Long locationId, @RequestParam int page, @RequestParam int size) {
+    @GetMapping("/location")
+    public ResponseEntity<Page<ReviewResponseDto>> getReviewsByLocationId(@RequestParam("location_id") Long locationId, @RequestParam("page") int page, @RequestParam("size") int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Page<Review> reviews = reviewService.getReviewsByLocationId(locationId, pageable);
         Page<ReviewResponseDto> result = reviews.map(review -> ReviewResponseDto.builder()
@@ -80,16 +80,16 @@ public class ReviewController {
                 .body(result);
     }
 
-    @PutMapping("/{reviewId}")
-    public ResponseEntity<Void> updateReview(@PathVariable Long reviewId, UpdateReviewRequestDto requestDto) {
+    @PutMapping("")
+    public ResponseEntity<Void> updateReview(@RequestParam("review_id") Long reviewId, @RequestBody UpdateReviewRequestDto requestDto) {
         reviewService.updateReview(reviewId, requestDto.getRating(), requestDto.getTitle(), requestDto.getText());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
     }
 
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+    @DeleteMapping("")
+    public ResponseEntity<Void> deleteReview(@RequestParam("review_id") Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity
                 .status(HttpStatus.OK)

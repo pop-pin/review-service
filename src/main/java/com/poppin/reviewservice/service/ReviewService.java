@@ -15,8 +15,8 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public Review createReview(Long authorId, Long locationId, int rating, String title, String text) {
-        return reviewRepository.save(new Review(authorId, locationId, rating, title, text));
+    public void createReview(Long authorId, Long locationId, int rating, String title, String text) {
+        reviewRepository.save(new Review(authorId, locationId, rating, title, text));
     }
 
     public Review getReview(Long reviewId) {

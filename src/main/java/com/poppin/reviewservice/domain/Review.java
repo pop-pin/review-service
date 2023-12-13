@@ -1,12 +1,15 @@
 package com.poppin.reviewservice.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity(name = "review")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +36,6 @@ public class Review {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public Review() {
-    }
 
     public Review(Long userId, Long locationId, int rating, String title, String text) {
         this.userId = userId;
